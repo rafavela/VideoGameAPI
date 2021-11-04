@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dragonfruit.bean.YearBean;
 
-@Repository
+@Repository("jpaYearRepository")
 public interface YearDao extends CrudRepository<YearBean, Integer> {
 	public List<YearBean> findByOrderByYear();
 }
