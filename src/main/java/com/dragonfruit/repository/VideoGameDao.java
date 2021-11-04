@@ -10,4 +10,5 @@ import com.dragonfruit.bean.VideoGameBean;
 @Repository("jpaVideoGameRepository")
 public interface VideoGameDao extends CrudRepository<VideoGameBean, Integer> {
 	public List<VideoGameBean> findAll();
+	public VideoGameBean findByVideoGameId(Integer videoGameId);
 }

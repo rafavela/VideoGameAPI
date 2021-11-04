@@ -13,25 +13,27 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name="video_game")
 public class VideoGameBean {
 	@Id
 	@Column(name="video_game_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer videoGameId;
+	private Integer videoGameId;
 	@Column(name="video_game_name")	
-	public String name;
-	public String saga;
+	private String name;
+	private String saga;
 	@ManyToOne(targetEntity=YearBean.class,cascade = CascadeType.ALL)
 	@JoinColumn(name = "year_id", referencedColumnName = "year_id")	
-	public YearBean yearBean;
+	private YearBean yearBean;
 	@Column(name="is_finished")		
-	public Boolean isFinished;
+	private Boolean isFinished;
 	@Column(name="path_name")			
-	public String cover;
+	private String cover;
 }

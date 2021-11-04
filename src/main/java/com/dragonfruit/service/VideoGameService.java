@@ -8,4 +8,5 @@ public interface VideoGameService {
 
 	public List<VideoGameBean>  getVideoGame();
 	public void saveVideoGame(VideoGameBean videoGameBean);
+	public void updateVideoGame(Integer videoGameId,VideoGameBean videoGameBean);	
 }

@@ -20,7 +20,7 @@ public class YearBean {
 	@Id
 	@Column(name="year_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer yearId;
+	private Integer yearId;
 	@Column(name="year_value")	
-	public Integer year;
+	private Integer year;
 }
