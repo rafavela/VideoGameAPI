@@ -19,4 +19,8 @@ public class VideoGameServiceImpl implements VideoGameService {
 	public List<VideoGameBean>  getVideoGame(){
 		return videoGameDao.findAll();
 	}
+	
+	public void saveVideoGame(VideoGameBean videoGameBean) {
+		videoGameDao.save(videoGameBean);
+	}
 }

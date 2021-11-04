@@ -1,7 +1,10 @@
 package com.dragonfruit.bean;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,11 +22,12 @@ import lombok.NoArgsConstructor;
 public class VideoGameBean {
 	@Id
 	@Column(name="video_game_id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer videoGameId;
 	@Column(name="video_game_name")	
 	public String name;
 	public String saga;
-	@ManyToOne(targetEntity=YearBean.class)
+	@ManyToOne(targetEntity=YearBean.class,cascade = CascadeType.ALL)
 	@JoinColumn(name = "year_id", referencedColumnName = "year_id")	
 	public YearBean yearBean;
 	@Column(name="is_finished")		

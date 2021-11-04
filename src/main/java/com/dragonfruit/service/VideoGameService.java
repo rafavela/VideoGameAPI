@@ -7,4 +7,5 @@ import com.dragonfruit.bean.VideoGameBean;
 public interface VideoGameService {
 
 	public List<VideoGameBean>  getVideoGame();
+	public void saveVideoGame(VideoGameBean videoGameBean);
 }

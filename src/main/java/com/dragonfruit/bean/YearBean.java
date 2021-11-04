@@ -2,6 +2,8 @@ package com.dragonfruit.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class YearBean {
 	@Id
 	@Column(name="year_id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer yearId;
 	@Column(name="year_value")	
 	public Integer year;
