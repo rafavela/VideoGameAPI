@@ -1,6 +1,7 @@
 package com.dragonfruit.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +29,8 @@ public class VideoGameController {
 	private VideoGameService videoGameService;
 	
 	@GetMapping
-	public List<VideoGameBean> getVideoGameBean(){
-		return videoGameService.getVideoGame();
+	public List<VideoGameBean> getVideoGameBean(@RequestParam Map<String,String> allParams){
+		return videoGameService.getVideoGame(allParams);
 	}	
 
 	@PostMapping(consumes = "application/json")

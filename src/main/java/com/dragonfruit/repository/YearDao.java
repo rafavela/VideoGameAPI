@@ -10,4 +10,5 @@ import com.dragonfruit.bean.YearBean;
 @Repository("jpaYearRepository")
 public interface YearDao extends CrudRepository<YearBean, Integer> {
 	public List<YearBean> findByOrderByYear();
+	public YearBean findByYear(Integer year);
 }
