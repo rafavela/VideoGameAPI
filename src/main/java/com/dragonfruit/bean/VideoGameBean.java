@@ -29,7 +29,7 @@ public class VideoGameBean {
 	@Column(name="video_game_name")	
 	private String name;
 	private String saga;
-	@ManyToOne(targetEntity=YearBean.class,cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity=YearBean.class,cascade = {CascadeType.MERGE})
 	@JoinColumn(name = "year_id", referencedColumnName = "year_id")	
 	private YearBean yearBean;
 	@Column(name="is_finished")		

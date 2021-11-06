@@ -48,4 +48,10 @@ public class VideoGameServiceImpl implements VideoGameService {
 		}		
 		videoGameDao.save(storedVideoGameBean);
 	}	
+	
+	public void deleteVideoGame(Integer videoGameId) {
+		VideoGameBean storedVideoGameBean = videoGameDao.findByVideoGameId(videoGameId);
+		
+		videoGameDao.delete(storedVideoGameBean);
+	}		
 }
