@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -52,7 +53,7 @@ public class VideoGameServiceImpl implements VideoGameService {
 		boolean isSagaPresent=StringUtils.hasText(saga);
 		boolean isYearPresent=yearBean.getYearId()!=0;	
 		List<VideoGameBean> videoGameBeanList=new ArrayList<>();
-		Pageable pageable = PageRequest.of(page, pageSize);
+		Pageable pageable = PageRequest.of(page, pageSize,Sort.by("name"));
 		
 		if(isNamePresent && isSagaPresent && isYearPresent){
 			videoGameBeanList=pageableVideoGameDao.findByNameAndSagaAndYearBean(name, saga, yearBean, pageable);
