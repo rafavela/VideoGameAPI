@@ -7,11 +7,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.dragonfruit.bean.VideoGameBean;
 import com.dragonfruit.bean.YearBean;
+import com.dragonfruit.repository.PageableVideoGameDao;
 import com.dragonfruit.repository.VideoGameDao;
 import com.dragonfruit.repository.YearDao;
 import com.dragonfruit.util.VideoGameConstants;
@@ -27,7 +30,11 @@ public class VideoGameServiceImpl implements VideoGameService {
 	@Qualifier("jpaYearRepository")
 	private YearDao yearDao;	
 	
-	public List<VideoGameBean>  getVideoGame(Map<String,String> allParams){
+	@Autowired
+	@Qualifier("jpaPageableRepository")
+	private PageableVideoGameDao pageableVideoGameDao;
+	
+	public List<VideoGameBean>  getVideoGame(Map<String,String> allParams,int page){
 		String name=allParams.containsKey(VideoGameConstants.NAME)?
 				allParams.get(VideoGameConstants.NAME):"";
 		String saga=allParams.containsKey(VideoGameConstants.SAGA)?
@@ -37,29 +44,22 @@ public class VideoGameServiceImpl implements VideoGameService {
 		boolean isSagaPresent=StringUtils.hasText(saga);
 		boolean isYearPresent=yearBean.getYearId()!=0;	
 		List<VideoGameBean> videoGameBeanList=new ArrayList<>();
-		System.out.println("before isNamePresent -->"+isNamePresent+"<--");
+		Pageable pageable = PageRequest.of(page, 2);
 		
 		if(isNamePresent && isSagaPresent && isYearPresent){
-			System.out.println(" 1 -->"+name+"<--");
-			videoGameBeanList=videoGameDao.findByNameAndSagaAndYearBean(name, saga, yearBean);
+			videoGameBeanList=pageableVideoGameDao.findByNameAndSagaAndYearBean(name, saga, yearBean, pageable);
 		}else if(isNamePresent && isSagaPresent) {
-			System.out.println(" 2 -->"+name+"<--");
-			videoGameBeanList=videoGameDao.findByNameAndSaga(name, saga);
+			videoGameBeanList=pageableVideoGameDao.findByNameAndSaga(name, saga, pageable);
 		}else if(isNamePresent && isYearPresent) {
-			System.out.println(" 3 -->"+name+"<--");
-			videoGameBeanList=videoGameDao.findByNameAndYearBean(name, yearBean);
+			videoGameBeanList=pageableVideoGameDao.findByNameAndYearBean(name, yearBean, pageable);
 		}else if(isSagaPresent && isYearPresent) {
-			System.out.println(" 4 -->"+name+"<--");
-			videoGameBeanList=videoGameDao.findBySagaAndYearBean(saga, yearBean);
+			videoGameBeanList=pageableVideoGameDao.findBySagaAndYearBean(saga, yearBean, pageable);
 		}else if(isNamePresent) {
-			System.out.println(" NAME -->"+name+"<--");
-			videoGameBeanList=videoGameDao.findByName(name);
+			videoGameBeanList=pageableVideoGameDao.findByName(name, pageable);
 		}else if(isSagaPresent) {
-			System.out.println(" 5 -->"+name+"<--");
-			videoGameBeanList=videoGameDao.findBySaga(saga);
+			videoGameBeanList=pageableVideoGameDao.findBySaga(saga, pageable);
 		}else if(isYearPresent) {
-			System.out.println(" 6 -->"+name+"<--");
-			videoGameBeanList=videoGameDao.findByYearBean(yearBean);
+			videoGameBeanList=pageableVideoGameDao.findByYearBean(yearBean, pageable);
 		}
 
 		return videoGameBeanList;

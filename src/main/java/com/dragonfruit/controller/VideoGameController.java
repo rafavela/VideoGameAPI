@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dragonfruit.bean.VideoGameBean;
 import com.dragonfruit.service.VideoGameService;
+import com.dragonfruit.util.VideoGameConstants;
 
 @RestController
 @RequestMapping(path="/videogame",produces="application/json")
@@ -30,9 +32,16 @@ public class VideoGameController {
 	
 	@GetMapping
 	public List<VideoGameBean> getVideoGameBean(@RequestParam Map<String,String> allParams){
-		return videoGameService.getVideoGame(allParams);
+		int page=this.getPage(allParams);
+		
+		return videoGameService.getVideoGame(allParams, page);
 	}	
 
+	private int getPage(Map<String,String> allParams) {
+		return StringUtils.hasText(allParams.get(VideoGameConstants.PAGE))?
+				Integer.valueOf(allParams.get(VideoGameConstants.PAGE)):0;
+	}
+	
 	@PostMapping(consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void postVideoGameBean(@RequestBody VideoGameBean videoGameBean){
