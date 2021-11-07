@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import com.dragonfruit.repository.YearDao;
 import com.dragonfruit.util.VideoGameConstants;
 
 @Service("jpaVideoGameService")
+@ConfigurationProperties(prefix="video-game.configuration")	
 public class VideoGameServiceImpl implements VideoGameService {
 
 	@Autowired
@@ -34,6 +36,12 @@ public class VideoGameServiceImpl implements VideoGameService {
 	@Qualifier("jpaPageableRepository")
 	private PageableVideoGameDao pageableVideoGameDao;
 	
+	private int pageSize = 2;
+	
+	public void setPageSize(int pageSize) {
+	    this.pageSize = pageSize;
+	}	
+	
 	public List<VideoGameBean>  getVideoGame(Map<String,String> allParams,int page){
 		String name=allParams.containsKey(VideoGameConstants.NAME)?
 				allParams.get(VideoGameConstants.NAME):"";
@@ -44,7 +52,7 @@ public class VideoGameServiceImpl implements VideoGameService {
 		boolean isSagaPresent=StringUtils.hasText(saga);
 		boolean isYearPresent=yearBean.getYearId()!=0;	
 		List<VideoGameBean> videoGameBeanList=new ArrayList<>();
-		Pageable pageable = PageRequest.of(page, 2);
+		Pageable pageable = PageRequest.of(page, pageSize);
 		
 		if(isNamePresent && isSagaPresent && isYearPresent){
 			videoGameBeanList=pageableVideoGameDao.findByNameAndSagaAndYearBean(name, saga, yearBean, pageable);
@@ -115,5 +123,5 @@ public class VideoGameServiceImpl implements VideoGameService {
 		VideoGameBean storedVideoGameBean = videoGameDao.findByVideoGameId(videoGameId);
 		
 		videoGameDao.delete(storedVideoGameBean);
-	}		
+	}	
 }

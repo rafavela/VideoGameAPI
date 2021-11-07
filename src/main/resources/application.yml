@@ -6,3 +6,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/videogamedb
     username: postgres
     password: password
+
+video-game:
+  configuration:
+    pageSize: 1 
+    
